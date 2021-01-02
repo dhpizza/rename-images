@@ -2,20 +2,27 @@
 
 Purpose: Renames image files in a folder based on date photo taken from EXIF metadata
 
-Author: Matthew Renze
+Author: Matthew Renze, modified by David Heereman
 
 Usage: python.exe Rename.py input-folder
   - input-folder = the directory containing the image files to be renamed
+  - naming_pattern: input_folder_YYYYMMDD_hhmmss.[jpg,png]
 
-Example: python.exe Rename.py C:\Photos
+
+Example:
+`python3 Rename.py /path/to/your/folder`
 
 Behavior:  
- - Given a photo named "Photo Apr 01, 5 54 17 PM.jpg"  
+ - Given a photo named "whatever.jpg"  
  - with EXIF date taken of "4/1/2018 5:54:17 PM"  
  - when you run this script on its parent folder
- - then it will be renamed "20180401-175417.jpg"
+ - then it will be renamed "paren_folder_20180401_175417.jpg"
 
 Notes:
   - For safety, please make a backup before running this script
-  - Currently only designed to work with .jpg, .jpeg, and .png files
+  - Currently only designed to work with `.jpg`, `jpeg`, `.JPG`and `.png`  files
   - EXIF metadate must exist or an error will occur
+
+
+Prerequisites:
+  - [pillow (PIL) library](https://pillow.readthedocs.io/en/stable/installation.html)

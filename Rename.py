@@ -1,44 +1,32 @@
 # Rename Images with Date Photo Taken
 
-# Purpose: Renames image files in a folder based on date photo taken from EXIF metadata
-
-# Author: Matthew Renze
-
-# Usage: python.exe Rename.py input-folder
-#   - input-folder = (optional) the directory containing the image files to be renamed
-
-# Examples: python.exe Rename.py C:\Photos
-#           python.exe Rename.py
-
-# Behavior:
-#  - Given a photo named "Photo Apr 01, 5 54 17 PM.jpg"  
-#  - with EXIF date taken of "4/1/2018 5:54:17 PM"  
-#  - when you run this script on its parent folder
-#  - then it will be renamed "20180401-175417.jpg"
-
-# Notes:
-#   - For safety, please make a backup before running this script
-#   - Currently only designed to work with .jpg, .jpeg, and .png files
-#   - EXIF metadata must exist or an error will occur
-#   - If you omit the input folder, then the current working directory will be used instead.
-
 # Import libraries
 import os
 import sys
 from PIL import Image
+import shutil
 
 # Set list of valid file extensions
-valid_extensions = [".jpg", ".jpeg", ".png"]
+valid_extensions = [".jpg", ".jpeg", ".png", ".JPG"]
 
 
 # If folder path argument exists then use it
 # Else use the current running folder
-if len(sys.argv) < 1:
+if len(sys.argv) > 1:
     folder_path = input_file_path = sys.argv[1]
+
 else:
     folder_path = os.getcwd()
 
-# Get all files from folder
+# Get folder named
+print("Path fo files: ", folder_path)
+folder_name = os.path.basename(folder_path.rstrip('/'))
+print("Prefix: ", folder_name)
+
+# Convert folder_name to usable filename prefix
+# i.e. rmove whtiespaces, umlauts etc
+
+# Get all files from folder with valid_extensions
 file_names = os.listdir(folder_path)
 
 # For each file
@@ -67,10 +55,10 @@ for file_name in file_names:
     # Reformat the date taken to "YYYYMMDD-HHmmss"
     date_time = date_taken \
         .replace(":", "")      \
-        .replace(" ", "-")
+        .replace(" ", "_")
 
     # Combine the new file name and file extension
-    new_file_name = date_time + file_ext
+    new_file_name = folder_name.replace(" ", "_") + '_' + date_time + file_ext
 
     # Create the new folder path
     new_file_path = os.path.join(folder_path, new_file_name)
@@ -78,5 +66,11 @@ for file_name in file_names:
     # Rename the file
     os.rename(old_file_path, new_file_path)
 
+    # Copy and renmae file
+    #shutil.copy(old_file_path, new_file_path)
+    print(old_file_path)
+    print(new_file_path)
 
+# List result
 
+os.system("ls -ltrh " + folder_path)
