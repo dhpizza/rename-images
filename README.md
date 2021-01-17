@@ -26,3 +26,4 @@ Notes:
 
 Prerequisites:
   - [pillow (PIL) library](https://pillow.readthedocs.io/en/stable/installation.html)
+    * `python3 -m pip install --upgrade Pillow --user`
